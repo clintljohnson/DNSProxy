@@ -275,20 +275,23 @@ namespace DNSProxyGUI
             if (this.Controls.Find("logListView", true).FirstOrDefault() is ListView logListView)
             {
                 ListViewItem item = new ListViewItem(new[] { ipAddress, hostname });
+                
+                // Set the color of the IP address
+                item.UseItemStyleForSubItems = false;
                 if (!IsValidIpAddress(ipAddress))
                 {
-                    item.UseItemStyleForSubItems = false;
                     item.SubItems[0].ForeColor = ColorTranslator.FromHtml("#808080");
                 }
+                else
+                {
+                    item.SubItems[0].ForeColor = logListView.ForeColor;
+                }
+
                 logListView.Items.Add(item);
 
                 if (logListView.Items.Count > 0)
                 {
-                    var lastItem = logListView.Items[logListView.Items.Count - 1];
-                    if (lastItem.Bounds.Bottom > logListView.ClientSize.Height)
-                    {
-                        logListView.EnsureVisible(logListView.Items.Count - 1);
-                    }
+                    logListView.EnsureVisible(logListView.Items.Count - 1);
                 }
             }
         }
@@ -308,25 +311,22 @@ namespace DNSProxyGUI
                     if (item.SubItems[1].Text == hostname && item.SubItems[0].Text == "Resolving...")
                     {
                         item.SubItems[0].Text = ipAddress;
+                        
+                        // Set the color of the IP address
+                        item.UseItemStyleForSubItems = false;
                         if (!IsValidIpAddress(ipAddress))
                         {
-                            item.UseItemStyleForSubItems = false;
                             item.SubItems[0].ForeColor = ColorTranslator.FromHtml("#808080");
                         }
                         else
                         {
-                            item.UseItemStyleForSubItems = true;
                             item.SubItems[0].ForeColor = logListView.ForeColor;
                         }
+                        
                         break;
                     }
                 }
             }
-        }
-
-        private bool IsValidIpAddress(string ipAddress)
-        {
-            return System.Net.IPAddress.TryParse(ipAddress, out _);
         }
 
         private void StopDnsProxy()
@@ -339,6 +339,12 @@ namespace DNSProxyGUI
         private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
         {
             StopDnsProxy();
+        }
+
+        // Add this helper method to check if a string is a valid IP address
+        private bool IsValidIpAddress(string ipAddress)
+        {
+            return System.Net.IPAddress.TryParse(ipAddress, out _);
         }
     }
 }

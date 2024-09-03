@@ -12,3 +12,4 @@ U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\refint\DNSProxyGUI.dll
 U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\DNSProxyGUI.pdb
 U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\DNSProxyGUI.genruntimeconfig.cache
 U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\ref\DNSProxyGUI.dll
+U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\DNSProxyGUI.sourcelink.json
