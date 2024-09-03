@@ -1,0 +1,14 @@
+U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\DNSProxyGUI.GeneratedMSBuildEditorConfig.editorconfig
+U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\DNSProxyGUI.AssemblyInfoInputs.cache
+U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\DNSProxyGUI.AssemblyInfo.cs
+U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\DNSProxyGUI.csproj.CoreCompileInputs.cache
+U:\Source Control\DNSProxyGUI\bin\Debug\net8.0-windows\DNSProxyGUI.exe
+U:\Source Control\DNSProxyGUI\bin\Debug\net8.0-windows\DNSProxyGUI.deps.json
+U:\Source Control\DNSProxyGUI\bin\Debug\net8.0-windows\DNSProxyGUI.runtimeconfig.json
+U:\Source Control\DNSProxyGUI\bin\Debug\net8.0-windows\DNSProxyGUI.dll
+U:\Source Control\DNSProxyGUI\bin\Debug\net8.0-windows\DNSProxyGUI.pdb
+U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\DNSProxyGUI.dll
+U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\refint\DNSProxyGUI.dll
+U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\DNSProxyGUI.pdb
+U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\DNSProxyGUI.genruntimeconfig.cache
+U:\Source Control\DNSProxyGUI\obj\Debug\net8.0-windows\ref\DNSProxyGUI.dll
