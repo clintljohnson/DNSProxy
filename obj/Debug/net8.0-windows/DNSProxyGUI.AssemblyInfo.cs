@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DNSProxyGUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ac79ed0f5c8ceb7bdb56696e7a648e2379f3f45")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1d983dc2932cd25e226da7be7d9ec8eaacbebc0c")]
 [assembly: System.Reflection.AssemblyProductAttribute("DNSProxyGUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DNSProxyGUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -49,7 +49,7 @@ namespace DNSProxyGUI
             TableLayoutPanel topPanel = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
-                ColumnCount = 5,
+                ColumnCount = 6,  // Increased from 5 to 6
                 RowCount = 1,
                 Padding = new Padding(10, 5, 10, 5)
             };
@@ -60,6 +60,9 @@ namespace DNSProxyGUI
             Label upstreamLabel = new Label { Text = "Upstream DNS:", Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleRight };
             TextBox upstreamTextBox = new TextBox { Name = "upstreamTextBox", Text = "8.8.8.8", Dock = DockStyle.Fill };
 
+            Button clearButton = new Button { Text = "Clear", Dock = DockStyle.Fill };
+            clearButton.Click += ClearButton_Click;
+
             Button startStopButton = new Button { Text = "Start", Dock = DockStyle.Fill };
             startStopButton.Click += StartStopButton_Click;
 
@@ -67,13 +70,15 @@ namespace DNSProxyGUI
             topPanel.Controls.Add(portTextBox, 1, 0);
             topPanel.Controls.Add(upstreamLabel, 2, 0);
             topPanel.Controls.Add(upstreamTextBox, 3, 0);
-            topPanel.Controls.Add(startStopButton, 4, 0);
+            topPanel.Controls.Add(clearButton, 4, 0);
+            topPanel.Controls.Add(startStopButton, 5, 0);
 
             topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+            topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
+            topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
+            topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
 
             mainPanel.Controls.Add(topPanel, 0, 0);
 
@@ -180,32 +185,25 @@ namespace DNSProxyGUI
 
         private async Task HandleDnsRequestAsync(UdpReceiveResult result)
         {
+            string hostname = ExtractHostname(result.Buffer);
+            
+            // Add the log entry immediately with "Resolving..." as the IP address
+            AddLogEntry("Resolving...", hostname);
+
             try
             {
-                using var localUdpServer = udpServer;
-                if (localUdpServer == null || upstreamDnsServer == null)
-                {
-                    Console.WriteLine("UDP server or upstream DNS is not initialized.");
-                    return;
-                }
-
-                byte[] requestData = result.Buffer;
-                if (requestData.Length < 12) return;
-
-                string hostname = ExtractHostname(requestData);
-                AddLogEntry("Resolving...", hostname);
-
-                byte[] responseData = await ForwardDnsRequest(requestData, upstreamDnsServer);
+                byte[] response = await ForwardDnsRequest(result.Buffer, upstreamDnsServer);
+                string ipAddress = ParseDnsResponse(response);
                 
-                string ipAddress = ParseDnsResponse(responseData);
-
+                // Update the log entry with the resolved IP address
                 UpdateLogEntry(ipAddress, hostname);
 
-                await localUdpServer.SendAsync(responseData, responseData.Length, result.RemoteEndPoint);
+                await udpServer.SendAsync(response, response.Length, result.RemoteEndPoint);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error handling DNS request: {ex.Message}");
+                // Update the log entry with the error message
+                UpdateLogEntry($"Error: {ex.Message}", hostname);
             }
         }
 
@@ -287,12 +285,11 @@ namespace DNSProxyGUI
                     item.SubItems[0].ForeColor = logListView.ForeColor;
                 }
 
-                logListView.Items.Add(item);
+                // Insert the new item at the top of the list
+                logListView.Items.Insert(0, item);
 
-                if (logListView.Items.Count > 0)
-                {
-                    logListView.EnsureVisible(logListView.Items.Count - 1);
-                }
+                // Ensure the new item is visible
+                logListView.EnsureVisible(0);
             }
         }
 
@@ -345,6 +342,14 @@ namespace DNSProxyGUI
         private bool IsValidIpAddress(string ipAddress)
         {
             return System.Net.IPAddress.TryParse(ipAddress, out _);
+        }
+
+        private void ClearButton_Click(object? sender, EventArgs e)
+        {
+            if (this.Controls.Find("logListView", true).FirstOrDefault() is ListView logListView)
+            {
+                logListView.Items.Clear();
+            }
         }
     }
 }
